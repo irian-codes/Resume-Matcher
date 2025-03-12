@@ -23,6 +23,18 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
+# Add custom CSS to hide stale elements
+st.markdown(
+    """
+<style>
+.element-container[data-stale="true"] {
+    display: none !important;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
 init_logging_config()
 cwd = find_path("Resume-Matcher")
 config_path = os.path.join(cwd, "scripts", "similarity")
@@ -238,7 +250,7 @@ keyword_dict = {}
 for keyword, value in selected_file["keyterms"]:
     keyword_dict[keyword] = value * 100
 
-fig = go.Figure(
+resume_table = go.Figure(
     data=[
         go.Table(
             header=dict(
@@ -252,18 +264,19 @@ fig = go.Figure(
         )
     ]
 )
-st.plotly_chart(fig)
+st.plotly_chart(resume_table)
 
 st.divider()
 
-fig = px.treemap(
+resume_treemap = px.treemap(
     df2,
     path=["keyword"],
     values="value",
     color_continuous_scale="Rainbow",
     title="Key Terms/Topics Extracted from your Resume",
+    height=400,
 )
-st.write(fig)
+st.write(resume_treemap)
 
 avs.add_vertical_space(5)
 
@@ -309,7 +322,7 @@ keyword_dict = {}
 for keyword, value in selected_jd["keyterms"]:
     keyword_dict[keyword] = value * 100
 
-fig = go.Figure(
+jd_table = go.Figure(
     data=[
         go.Table(
             header=dict(
@@ -323,20 +336,25 @@ fig = go.Figure(
         )
     ]
 )
-st.plotly_chart(fig)
+st.plotly_chart(jd_table)
 
 st.divider()
 
-fig = px.treemap(
+st.markdown("#### For easy comparison, here are both treemaps.")
+jd_treemap = px.treemap(
     df2,
     path=["keyword"],
     values="value",
     color_continuous_scale="Rainbow",
     title="Key Terms/Topics Extracted from the selected Job Description",
+    height=400,
 )
-st.write(fig)
+st.write(jd_treemap)
+st.write(resume_treemap)
 
 avs.add_vertical_space(3)
+
+st.markdown("#### Similarity Score")
 
 resume_string = " ".join(selected_file["extracted_keywords"])
 jd_string = " ".join(selected_jd["extracted_keywords"])
