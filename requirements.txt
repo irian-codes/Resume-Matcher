@@ -58,7 +58,7 @@ Pygments==2.15.1
 pymdown-extensions==10.1
 Pympler==1.0.1
 pyparsing==3.0.9
-pypdf==3.17.0
+pypdf==5.3.1
 pyphen==0.14.0
 python-dateutil==2.8.2
 python-multipart==0.0.18
@@ -112,5 +112,5 @@ zipp==3.19.1
 reportlab==3.6.13
 easygui==0.98.3
 xhtml2pdf==0.2.11
-fastembed~=0.2.2
+fastembed~=0.5.1
 qdrant-client==1.9.0
